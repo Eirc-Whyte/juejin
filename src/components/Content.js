@@ -57,8 +57,10 @@ const CardList = () =>{
 }
 const Sidebar = ()=>{
     return(
-        <aside className="bg-white mx-4 min-w-20r">
-            sidebar
+        <aside className="flex flex-col mx-4 min-w-20r">
+            <div className="bg-white p-4 mb-6">sidebar1</div>
+            <div className="bg-white p-4 mb-6">sidebar2</div>
+            <div className="bg-white p-4 mb-6">sidebar3</div>
         </aside>
     )
 }

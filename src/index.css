@@ -14,7 +14,14 @@ body {
   background-color: #f4f5f5;
   
 }
-
+.search-input:focus{
+  width: 36rem;
+  transition: width .3s;
+  transition-property: width;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

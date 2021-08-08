@@ -1,13 +1,22 @@
 const Searchbar = () =>{
     return (
-        <ul className="flex flex-1 justify-end mr-4">
-            <li className="">
-                <form className="flex bg-gray-100">
-                    <input className="bg-transparent w-48 py-3 pl-4" type="search" placeholder="探索掘金"></input>
-                    <img className=" px-2" src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/8f68a2223e9650f14d6e6781cdcd717a.svg" alt="search"></img>
-                </form>
+        <ul className="flex flex-auto mx-8 overflow-hidden items-start">
+            <li className="rounded flex flex-col relative mt-4">
+                <div className="rounded flex m-px bg-gray-100 focus-within:outline-blue">
+                    <input className="search-input bg-transparent w-48 py-3 pl-4 transition-all focus:outline-none" type="search" placeholder="探索掘金"></input>
+                    <img className="px-2 cursor-pointer" src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/8f68a2223e9650f14d6e6781cdcd717a.svg" alt="search"></img>
+                </div>
+                <div className="search-history flex flex-col z-20 w-full bg-white divide-y border border-gray-100">
+                    <div className="flex justify-between px-4 py-2">
+                        <span className="cursor-pointer hover:text-blue">搜索历史</span>
+                        <span className="cursor-pointer hover:text-blue">清空</span>
+                    </div>
+                    <ul className="flex flex-col hover:bg-gray-100 cursor-pointer">
+                        <li className="px-4 py-2 ">history</li>
+                    </ul>
+                </div>
             </li>
-            <li className="flex flex-row flex-around px-4">
+            <li className="flex flex-none flex-around px-4 items-center h-20">
                 <button className="bg-blue-100 text-blue text-lg py-1 px-5 rounded mx-8 transition-all hover:text-sky-blue hover:bg-blue-500">创作者中心</button>
                 <div className="relative bg-blue-500 text-white text-lg rounded flex cursor-pointer divide-x divide-white divide-opacity-40">
                     <button className="h-full text-lg py-1 px-4 transition-all hover:bg-blue-600 rounded">写文章</button>
@@ -21,6 +30,20 @@ const Searchbar = () =>{
             </li>
         </ul>
     ) 
+}
+const UserInfo = ()=>{
+    return(
+        <ul className="flex-none">
+            <li className="flex flex-around items-center h-20">
+                <a className="px-4" href="/alert">
+                    <img alt="alert" src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/c7f91fad712592633383df6aa430c93c.svg"/>
+                </a>
+                <a className="pl-4 " href="/profile">
+                    <img className="bg-cover rounded-full w-10 h-10 " alt="user_avatar" src="https://sf3-ttcdn-tos.pstatp.com/img/user-avatar/e85c76d2bdac57930f1135a96c090c83~300x300.image"></img>
+                </a>
+            </li>
+        </ul>
+    )
 }
 const Header = () => {
     let keys = 0;
@@ -37,20 +60,20 @@ const Header = () => {
         new navHeader('/events', '活动')
     ];
     return (
-        <div className="relative h-20">
+        <div className="h-20">
             <header className="fixed block top-0 border-b w-full h-20 z-10 bg-white transition-all transform">
-                <div className="flex h-20 m-auto max-w-screen-xl items-center">
+                <div className="flex h-20 m-auto max-w-screen-xl items-start">
                     <img
-                        className="mx-4"
+                        className="mx-4 h-20"
                         alt="juejin"
                         // style={{width:'82px'}}
                         width={82}
                         height={60}
                         src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/dcec27cc6ece0eb5bb217e62e6bec104.svg" />
-                    <div className="max-w-screen-lg">
-                        <ul className="flex space-x-5">{
+                    <div className="max-w-screen-lg flex-none">
+                        <ul className="flex items-center h-20 ">{
                             links.map(item =>
-                                <li key={item.key} className="hover:text-blue cursor-pointer text-grey h-7 text-xl px-7 ">
+                                <li key={item.key} className="hover:text-blue cursor-pointer text-grey h-auto text-xl px-7 ">
                                     <a href={item.link} >
                                         {item.name}
                                     </a>
@@ -89,10 +112,9 @@ const Header = () => {
                         </ul>
                     </div>
                     <Searchbar></Searchbar>
+                    <UserInfo></UserInfo>
                 </div>
-                
             </header>
-           
         </div>
     )
 }

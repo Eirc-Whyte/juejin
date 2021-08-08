@@ -28,6 +28,9 @@ module.exports = {
         'blue' : '#1e80ff',
         'sky-blue' : '#e8f3ff',
       },
+      outline: {
+        blue: '1px solid #1e80ff',
+      }
     },
   },
   variants: {
@@ -37,6 +40,8 @@ module.exports = {
       transform: ['hover', 'focus'],
       translate: ['hover', 'focus'],
       visibility: ['hover', 'focus'],
+      outline:['hover','active'],
+      
     },
   },
   plugins: [],
