@@ -1,32 +1,25 @@
-
-const navList = () =>{
-    let keys = 0;
-    function navItem(link, name){
-        this.key = keys++;
-        this.name = name;
-        this.link = link;
-    }
-    const listContent = [
-        new navItem('/recommended','推荐'),
-        new navItem('/following','关注'),
-        new navItem('/backend','后端'),
-        new navItem('/fontend','前端'),
-        new navItem('/android','Android'),
-        new navItem('/ios','IOS')
-    ];
+import { getCategories } from '../api';
+import React, { useState,useEffect } from 'react';
+const NavList = () => {
+    const [categories, setCategories] = useState([]);
+    useEffect(() =>{
+        getCategories().then((value) => {
+            setCategories(value.data.categories);
+        });
+    })
+    
     return (
-    <nav className="bg-white fixed w-full top-20 transition-all transform">
-    <ul className="mx-auto max-w-screen-lg h-14 flex text-left items-center shadow-sm">
-        {listContent.map(item => 
-        <a href={item.link} key={item.key}>
-        <li 
-        className="text-lg hover:text-blue cursor-pointer text-grey px-4">
-            {item.name}
-        </li>
-        </a>
+    <nav className="bg-white fixed w-screen top-20 mobile:top-24 transition-all transform text-center">
+    <ul className="mx-auto h-14 inline-flex text-left items-center shadow-sm">{
+        categories.map(item => 
+            <a href={`/categories/${item.category_id}`} key={item.category_id}>
+                <li className="text-lg hover:text-blue cursor-pointer text-grey px-4">
+                    {item.category_name}
+                </li>
+            </a>
         )}
     </ul>
     </nav>
     );
 }
-export default navList;
+export default NavList;

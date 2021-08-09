@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 html{
-  font-size: 12px;
-}
+  font-size:10px
+} 
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -21,6 +21,13 @@ body {
   transition-duration: 0.3s;
   transition-timing-function: ease;
   transition-delay: 0s;
+}
+.brief{
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
