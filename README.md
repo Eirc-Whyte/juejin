@@ -23,12 +23,12 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 ### Timeline
 
 第一周 —— 页面框架
-- [ ] 搭建 React/Vue 基础框架，开始进行进行基本的开发。
-- [ ] 开发出整个页面的框架，要求实现一个假的（无功能，数据我们提供一个 JSON）三个 Tab 的基本框架。
+- [x] 搭建 React/Vue 基础框架，开始进行进行基本的开发。
+- [x] 开发出整个页面的框架，要求实现一个假的（无功能，数据我们提供一个 JSON）三个 Tab 的基本框架。
 
 第二周 —— 完整样式
-- [ ] 实现页面列表样式。（数据我们提供 JSON）
-- [ ] 实现文章页样式。（数据我们提供 JSON）
+- [x] 实现页面列表样式。（数据我们提供 JSON）
+- [x] 实现文章页样式。（数据我们提供 JSON）
 
 第三周 —— 接入数据
 - [ ] 接入真实接口，实现基本浏览功能。
@@ -44,4 +44,9 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 - 解决: 舍弃absolute，直接纵向flex，给定top-margin然后外部flex align-items:start
 - 写完web发现让写的是h5? 
 - 解决: 迁移样式: postcss-px2rem 由于用的tailwindcss因此大部分都是rem，只有少数需要改改
-- 
+- 发现接口查询返回的文章（例如《快速入门kotlin笔记》）重复，导致作为key的article_id重复，导致重新渲染出问题，会出现多个
+- 解决: 手动去重
+- CardList切换到new时右边会出现2px左右的margin，应该是内容溢出导致
+- 解决: CardList添加overflow-hidden
+- 无线滚动实现方案
+- 采用IntersectionObserver，实现固定items数量懒加载

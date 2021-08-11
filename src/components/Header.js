@@ -1,5 +1,6 @@
 import { getCategories } from '../api';
 import React, { useState,useEffect } from 'react';
+import { parse } from 'postcss';
 
 const Searchbar = () =>{
     return (
@@ -84,11 +85,26 @@ const Events = ()=>{
 }
 const Header = ({condition, onConditionChange}) => {
     const [categories, setCategories] = useState([]);
+    const [onselection, setOnSelection] = useState([]);
     useEffect(() =>{
         getCategories().then((value) => {
             setCategories(value.data.categories);
+            let newSelection = [];
+            value.data.categories.forEach((category,index) =>{
+                newSelection.push("text-grey");
+            })
+            newSelection[0] = "text-blue";
+            setOnSelection(newSelection);
         });
     },[])
+    const onHandleClick = (id) =>{
+        if(parseInt(id) !== condition.categoryID){
+            onConditionChange({...condition, categoryId: parseInt(id)})
+            setOnSelection((pre)=>(pre.map((item,index) => {
+                return item = index === parseInt(id) ? "text-blue":"text-grey"
+            })))
+        }
+    }
     return (
         <div className="h-20">
             <header className="px-8 mobile:pl-4 fixed inline-flex mx-auto justify-center mobile:justify-start items-start mobile:items-center top-0 border-b w-screen h-20 z-10 bg-white transition-all transform">
@@ -105,11 +121,11 @@ const Header = ({condition, onConditionChange}) => {
                     src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/6bdafd801c878b10edb5fed5d00969e9.svg"
                 ></img>
                 <ul className="flex justify-start items-center h-20 overflow-auto">{
-                    categories.map(item =>
+                    categories.map((item,index) =>
                         <li 
                         key={item.category_id} 
-                        onClick={()=> onConditionChange({...condition, categoryId: parseInt(item.category_id)})} 
-                        className="flex-none hover:text-blue cursor-pointer text-grey text-center px-3 text-xl">
+                        onClick={()=> onHandleClick(item.category_id)} 
+                        className={`flex-none hover:text-blue cursor-pointer text-center px-3 text-xl ${onselection[parseInt(item.category_id)]}`}>
                             {item.category_name}
                         </li>
                     )}
