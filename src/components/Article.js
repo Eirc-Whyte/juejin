@@ -13,7 +13,7 @@ const Article = () =>{
     },[id,article])
     return (
         article.author_user_info ? 
-        (<div className="flex flex-col justify-center items-center max-w-min">
+        (<div className="flex flex-col justify-center items-center mobile:max-w-min">
         <div className="w-screen mt-10 mx-4 article px-7 bg-white pt-4 mb-4 max-w-screen-tablet">
             <div className="author flex align-center justify-between align-center my-4">
                 <div className="flex divide-x ">
@@ -35,8 +35,7 @@ const Article = () =>{
                 {/* <article >
                 {article.article_content}
                 </article> */}
-                <div 
-                className="prose article-content my-8 py-4 leading-loose"
+                <div className="article-content my-8 py-4 leading-loose"
                 dangerouslySetInnerHTML={{ __html: article.article_content }} ></div>
             </div>
         </div>

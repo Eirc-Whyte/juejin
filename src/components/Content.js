@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 import { getArticles } from '../api'
 
@@ -7,7 +7,7 @@ const Card = ({article})=>{
     let {article_id, article_info} = article;
     return (
         <Link to={`/article/${article_id}`}>
-        <div className="content-box hover:bg-gray-50 px-7">
+        <div className="content-box hover:bg-gray-50 px-7 max-w-screen-tablet">
             <div className="meta-box inline-flex pt-4 align-middle justify-between">
                 <div className="user-message pr-2">Sam</div>
                 <div className="text-grey date px-2">8小时前</div>
@@ -16,11 +16,11 @@ const Card = ({article})=>{
                     <a className="px-2 cursor-pointer">javascript</a> */}
                 </div>
             </div>
-            <div className="content-wrapper flex flex-col my-3 pb-4 border-b items-start">
+            <div className="content-wrapper flex flex-col my-3 pb-4 border-b items-start ">
                 <div className="title text-xl mb-2 font-bold">
                     {article_info.title}
                 </div>
-                <div className="content-main flex flex-auto justify-around pb-4">
+                <div className="content-main flex flex-auto justify-between pb-4">
                     <div className="text-base text-grey mb-2">
                         <p className="brief">{article_info.brief_content}</p>
                     </div>
@@ -48,16 +48,16 @@ const Card = ({article})=>{
         </Link>
     )
 }
-const CardList = ({cid}) =>{
+const CardList = ({condition}) =>{
     const [articleList, setArticleList] = useState([]);
     useEffect(() =>{
-        getArticles(parseInt(cid),'hot',0,10).then((value) =>{
+        getArticles(condition.categoryId, condition.sortBy, 0, 10).then((value) =>{
             setArticleList(value.data.articles);
             console.log(value.data)
         })
-    },[cid])
+    },[condition])
     return (
-        <div className="flex-auto bg-white mx-4">{
+        <div className="flex flex-col bg-white">{
             articleList.map(article => {
                 return <Card key={article.article_info.article_id} article={article}></Card>
         })}</div>
@@ -81,12 +81,21 @@ const SecondNav = () =>{
         </div>
     )
 }
-const Content = ({cid})=>{
+const Content = ({condition})=>{
+    const ref = useRef();
+    useEffect(() =>{
+        if(condition.categoryId === 0){
+            ref.current.className = "mt-6 flex justify-center transition-all";
+        }else{
+            ref.current.className = "mt-20 flex justify-center transition-all";
+        }
+    },[condition])
+    
     return (
-        <main className="mt-20 flex justify-center">
+        <main className="mt-20 flex justify-center" ref={ref}>
             <div>
             {/* <SecondNav/> */}
-            <CardList cid={cid}/>
+            <CardList condition={condition}/>
             </div>
             <Sidebar/>
         </main>

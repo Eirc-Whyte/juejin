@@ -57,10 +57,10 @@ module.exports = {
       translate: ['hover', 'focus'],
       visibility: ['hover', 'focus'],
       outline:['hover','active'],
-      
     },
   },
   plugins: [
     require('@tailwindcss/typography'),
+    require('@tailwindcss/line-clamp'),
   ],
 }

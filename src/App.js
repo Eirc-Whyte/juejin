@@ -8,6 +8,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
 const HomePage = () => {
   window.addEventListener('scroll', (e)=>{
@@ -21,19 +22,19 @@ const HomePage = () => {
     }else{
       footer = navs[0];
     }
-    if(window.pageYOffset >= 50){  //if语句判断window页面Y方向的位移是否大于或者等于导航栏的height像素值
-      header.classList.add('mobile:-translate-y-24');  //当Y方向位移大于80px时，定义的变量增加一个新的样式'header_bg'
+    if(window.pageYOffset >= 100){  //if语句判断window页面Y方向的位移是否大于或者等于导航栏的height像素值
+      header.classList.add('mobile:-translate-y-20');  //当Y方向位移大于80px时，定义的变量增加一个新的样式'header_bg'
       header.classList.add('-translate-y-20');
       if(nav !== null) {
-        nav.classList.add('mobile:-translate-y-24');
+        nav.classList.add('mobile:-translate-y-20');
         nav.classList.add('-translate-y-20');
       }
       footer.classList.add('translate-y-24');
     } else {
-      header.classList.remove('mobile:-translate-y-24');
+      header.classList.remove('mobile:-translate-y-20');
       header.classList.remove('-translate-y-20');
       if(nav !== null) {
-        nav.classList.remove('mobile:-translate-y-24');
+        nav.classList.remove('mobile:-translate-y-20');
         nav.classList.remove('-translate-y-20');
       }
       footer.classList.remove('translate-y-24');
@@ -69,20 +70,28 @@ const HomePage = () => {
   //       }
   //   }
   // });
+  const [articleFilterCondition, setFilterCondition] = useState({
+    categoryId: 0,
+    sortBy:'hot',
+    tag:'all'
+  });
+  const handleConditionChange = (newCondition) => {
+    setFilterCondition(newCondition);
+  }
     return (
       <Router>
         <div className="w-screen">
-            <Header />
+            <Header condition={articleFilterCondition} onConditionChange={handleConditionChange}/>
             <Switch>
               <Route path="/article/:id">
                 <Article />
               </Route>
               <Route path="/categories/:cid?">
-                <Container />
+                <Container condition={articleFilterCondition} />
               </Route>
               <Redirect to="/categories/0"></Redirect>
             </Switch>
-            <Footer/>
+            <Footer condition={articleFilterCondition} onConditionChange={handleConditionChange}/>
         </div>
       </Router>
     )

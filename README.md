@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+## 手写一个掘金客户端
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+文档:
 
-## Available Scripts
+https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 
-In the project directory, you can run:
+### 功能简介
 
-### `yarn start`
+#### 首页（热门 / 最新 Tab 页）
+- 首页有三个主 Tab 分别为 「热门」、「最新」和「历史」，「热门」和「最新」保留跟掘金一样的交互逻辑
+- 文章列表还有两个二级 Tab ，分别对应文章列表二级 Tab，点击切换 Tab。
+- 头顶上两个二级 Tab 要求可以固定在屏幕最上方。
+- 文章列表里面基本逻辑跟掘金的页面一致，文章列表显示基本文章信息如标题，作者，发布时间等等，点击跳转到文章页。
+- 文章列表拉到最底后自动加载后面的列表内容（俗称：无限滚动列表）。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### 文章页
+- 文章页面分成两个大部分，上面一部分是文章头图、作者信息，并且显示文章内容。
+- 下半部分显示文章的评论，要求能够显示一二级评论。
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### 历史
+- 历史页面非常简单，大致文章列表和首页的一样，但是这里记录我们在这个掘金客户端里面浏览过的文章。
 
-### `yarn test`
+### Timeline
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+第一周 —— 页面框架
+- [ ] 搭建 React/Vue 基础框架，开始进行进行基本的开发。
+- [ ] 开发出整个页面的框架，要求实现一个假的（无功能，数据我们提供一个 JSON）三个 Tab 的基本框架。
 
-### `yarn build`
+第二周 —— 完整样式
+- [ ] 实现页面列表样式。（数据我们提供 JSON）
+- [ ] 实现文章页样式。（数据我们提供 JSON）
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+第三周 —— 接入数据
+- [ ] 接入真实接口，实现基本浏览功能。
+- [ ] 我们提供接口功能和文档。
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+第四周 —— 增加功能
+- [ ] 实现滑到文章列表底部自动加载功能（列表页与文章页面）。
+- [ ] 实现浏览历史 / 稍后再看功能。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+目前遇到的问题及解决方法:
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- web端搜索展开二级菜单相关问题: relative+absolute布局纵向会被hidden
+- 解决: 舍弃absolute，直接纵向flex，给定top-margin然后外部flex align-items:start
+- 写完web发现让写的是h5? 
+- 解决: 迁移样式: postcss-px2rem 由于用的tailwindcss因此大部分都是rem，只有少数需要改改
+- 

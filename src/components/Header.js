@@ -1,3 +1,6 @@
+import { getCategories } from '../api';
+import React, { useState,useEffect } from 'react';
+
 const Searchbar = () =>{
     return (
         <ul className="mobile:hidden flex flex-auto mx-8 overflow-hidden items-start">
@@ -79,38 +82,37 @@ const Events = ()=>{
             </div>
     )
 }
-const Header = () => {
-    let keys = 0;
-    function navHeader(link, name) {
-        this.key = keys++;
-        this.name = name;
-        this.link = link;
-    }
-    const links = [
-        new navHeader('/', '推荐'),
-        new navHeader('/pins', '前端'),
-        new navHeader('/news', '后端'),
-        // new navHeader('/books', '小册'),
-        // new navHeader('/events', '活动')
-    ];
+const Header = ({condition, onConditionChange}) => {
+    const [categories, setCategories] = useState([]);
+    useEffect(() =>{
+        getCategories().then((value) => {
+            setCategories(value.data.categories);
+        });
+    },[])
     return (
         <div className="h-20">
-            <header className="px-10 fixed flex mx-auto items-start mobile:flex-col mobile:items-center top-0 border-b w-screen mobile:h-24 h-20 z-10 bg-white transition-all transform">
+            <header className="px-8 mobile:pl-4 fixed inline-flex mx-auto justify-center mobile:justify-start items-start mobile:items-center top-0 border-b w-screen h-20 z-10 bg-white transition-all transform">
                 {/* <div className=""> */}
                 <img
-                    className="mx-4 mobile:mt-4 h-20 mobile:h-14"
+                    className="mobile:hidden mx-4 h-20 mobile:h-14"
                     alt="logo"
                     width={82}
                     src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/dcec27cc6ece0eb5bb217e62e6bec104.svg" />
-                <ul className="flex items-center h-20">{
-                    links.map(item =>
-                        <li key={item.key} className="hover:text-blue cursor-pointer text-grey h-auto text-xl px-7 ">
-                            <a href={item.link} >
-                                {item.name}
-                            </a>
+                <img
+                    className="hidden mobile:block mr-2 h-20 mobile:h-14"
+                    alt="logo-small"
+                    width={30}
+                    src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/6bdafd801c878b10edb5fed5d00969e9.svg"
+                ></img>
+                <ul className="flex justify-start items-center h-20 overflow-auto">{
+                    categories.map(item =>
+                        <li 
+                        key={item.category_id} 
+                        onClick={()=> onConditionChange({...condition, categoryId: parseInt(item.category_id)})} 
+                        className="flex-none hover:text-blue cursor-pointer text-grey text-center px-3 text-xl">
+                            {item.category_name}
                         </li>
                     )}
-                    {/* <Events/> */}
                 </ul>
                 <Searchbar></Searchbar>
                 <UserInfo></UserInfo>
