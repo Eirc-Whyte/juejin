@@ -53,3 +53,5 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 - 问题：函数组件ref无法直接获取
 - 解决：使用findDOMNode
 - 问题：ref在useEffect中是undefined
+- 固定数量item加载，上方填充问题
+- 解决:在最上方添加一个单独的div用来填充margin

@@ -13,6 +13,7 @@ const CardList = ({condition}) =>{
     const $bottomElement = useRef();
     const $topElement = useRef();
     const [topMargin, setTopMargin] = useState(0);
+    const [bottomMargin, setBottomMargin] = useState(0);
 
     useEffect(() =>{
         console.log("useEffect called by condition")
@@ -80,6 +81,7 @@ const CardList = ({condition}) =>{
                         end: newEnd
                     });
                     setTopMargin($topElement.current.clientHeight * (newStart));
+                    setBottomMargin($bottomElement.current.clientHeight * (listLength - 1 - newEnd));
                 }
                 // Scroll up
                 if (entry.isIntersecting && entry.target.id === "top") {
@@ -91,6 +93,7 @@ const CardList = ({condition}) =>{
                         end: newEnd
                     });
                     setTopMargin($topElement.current.clientHeight * (newStart));
+                    setBottomMargin($bottomElement.current.clientHeight * (listLength - 1 - newEnd));
                 }
             });
         }, options)
@@ -123,7 +126,7 @@ const CardList = ({condition}) =>{
     
     return (
         <div className="flex flex-col bg-white overflow-hidden">
-            <div id="topMargin" style={{margin:`${topMargin}px 0 0 0`}}></div>
+            <div id="top-margin" style={{margin:`${topMargin}px 0 0 0`}}></div>
             {
             articleList
                 .slice(renderRange.start,renderRange.end)
@@ -145,7 +148,7 @@ const CardList = ({condition}) =>{
             }
         )
         }
-        {/* <div id="bottom" ref={$bottomElement}>到底了-----</div> */}
+        <div id="bottom-margin" style={{margin:`0 0 ${bottomMargin}px 0`}}></div>
         </div>
     )
 }
