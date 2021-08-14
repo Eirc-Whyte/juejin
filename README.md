@@ -48,5 +48,8 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 - 解决: 手动去重
 - CardList切换到new时右边会出现2px左右的margin，应该是内容溢出导致
 - 解决: CardList添加overflow-hidden
-- 无线滚动实现方案
+- 无限滚动实现方案
 - 采用IntersectionObserver，实现固定items数量懒加载
+- 问题：函数组件ref无法直接获取
+- 解决：使用findDOMNode
+- 问题：ref在useEffect中是undefined
