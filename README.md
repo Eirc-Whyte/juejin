@@ -54,4 +54,8 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 - 解决：使用findDOMNode
 - 问题：ref在useEffect中是undefined
 - 固定数量item加载，上方填充问题
-- 解决:在最上方添加一个单独的div用来填充margin
+- 解决:在最上方添加一个单独的div用来填充margin,但是概率会出现抖动
+- 问题：使用url保存当前位置 or 使用状态分发保存当前位置
+- 目前采用后者，优点是url清爽，缺点是各组件状态重复
+- 问题：切换tab后无限加载失效
+- 计划：抽象无限加载组件只接受一个update函数和一个列表，也方便以后评论使用

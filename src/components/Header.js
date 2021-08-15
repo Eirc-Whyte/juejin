@@ -98,8 +98,8 @@ const Header = ({condition, onConditionChange}) => {
         });
     },[])
     const onHandleClick = (id) =>{
-        if(parseInt(id) !== condition.categoryID){
-            onConditionChange({...condition, categoryId: parseInt(id)})
+        if(parseInt(id) !== condition.categoryId || condition.tag !== "all"){
+            onConditionChange({...condition, categoryId: parseInt(id), tag:"all"})
             setOnSelection((pre)=>(pre.map((item,index) => {
                 return item = index === parseInt(id) ? "text-blue":"text-grey"
             })))

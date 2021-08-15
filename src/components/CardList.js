@@ -16,8 +16,8 @@ const CardList = ({condition}) =>{
     const [bottomMargin, setBottomMargin] = useState(0);
 
     useEffect(() =>{
-        console.log("useEffect called by condition")
-        getArticles(condition.categoryId, condition.sortBy, 0, MaxLength).then((value) =>{
+        // console.log("useEffect called by condition")
+        getArticles(condition.tag === "all" ? condition.categoryId : condition.tag, condition.sortBy, 0, MaxLength).then((value) =>{
             let array = []
             let arr = value.data.articles;
             let indexSet = []
@@ -37,8 +37,8 @@ const CardList = ({condition}) =>{
         })
     },[condition])
     useEffect(() => {
-        console.log("useEffect called by start and end")
-        console.log(renderRange);
+        // console.log("useEffect called by start and end")
+        // console.log(renderRange);
         if(renderRange.end >= articleList.length - 1){
             getArticles(condition.categoryId, condition.sortBy, articleList.length, MaxLength).then((value) =>{
                 let array = articleList;
@@ -58,7 +58,7 @@ const CardList = ({condition}) =>{
     },[renderRange.start, renderRange.end])
 
     const initObserver = () => {
-        console.log('initObserver')
+        // console.log('initObserver')
         const options = {
           root: null,
           rootMargin: '0px',
@@ -68,9 +68,8 @@ const CardList = ({condition}) =>{
                 const {start, end} = renderRange;
                 entries.forEach((entry, index) => {
                 const listLength = articleList.length;
-                console.log("listLength",listLength)
+                // console.log("listLength",listLength)
                 // Scroll Down
-                console.log(entry.target , entry.isIntersecting)
                 if (entry.isIntersecting && entry.target.id === "bottom") {
                     const maxStartIndex = listLength - 1 - MaxLength;     // Maximum index value `start` can take
                     const maxEndIndex = listLength - 1;                   // Maximum index value `end` can take
@@ -80,6 +79,7 @@ const CardList = ({condition}) =>{
                         start: newStart,
                         end: newEnd
                     });
+                    console.log($topElement.current , $bottomElement.current)
                     setTopMargin($topElement.current.clientHeight * (newStart));
                     setBottomMargin($bottomElement.current.clientHeight * (listLength - 1 - newEnd));
                 }
@@ -97,7 +97,7 @@ const CardList = ({condition}) =>{
                 }
             });
         }, options)
-        console.log($topElement.current, $bottomElement.current)
+        // console.log($topElement.current, $bottomElement.current)
         if ($topElement.current) {
           Observer.observe($topElement.current);
         }
@@ -122,7 +122,7 @@ const CardList = ({condition}) =>{
         return ()=>{
             resetObserver();
         }
-    },[renderRange.start, renderRange.end])
+    },[condition, renderRange.start, renderRange.end])
     
     return (
         <div className="flex flex-col bg-white overflow-hidden">
@@ -132,7 +132,7 @@ const CardList = ({condition}) =>{
                 .slice(renderRange.start,renderRange.end)
                 .map((article,index) => {
                 const {start, end} = renderRange;
-                if(index === 0) console.log(articleList);
+                // if(index === 0) console.log(articleList);
                 return (
                     <div 
                         id={index === 0 ? "top" : (index === end - start - 1 ? "bottom" :"" )} 

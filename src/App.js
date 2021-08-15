@@ -86,10 +86,10 @@ const HomePage = () => {
               <Route path="/article/:id">
                 <Article />
               </Route>
-              <Route path="/categories/:cid?">
-                <Container condition={articleFilterCondition} />
+              <Route path="/">
+                <Container condition={articleFilterCondition} onConditionChange={handleConditionChange}/>
               </Route>
-              <Redirect to="/categories/0"></Redirect>
+              <Redirect to="/"></Redirect>
             </Switch>
             <Footer condition={articleFilterCondition} onConditionChange={handleConditionChange}/>
         </div>
