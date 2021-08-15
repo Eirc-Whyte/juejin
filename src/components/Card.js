@@ -1,5 +1,5 @@
 import view from './asset/view.png'; 
-import favourite from './asset/favourite.png'; 
+import favourite from './asset/like.png'; 
 import comment from './asset/comment.png';
 import { Link } from "react-router-dom";
 import React from 'react'

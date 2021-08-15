@@ -56,6 +56,7 @@ module.exports = {
       translate: ['hover', 'focus'],
       visibility: ['hover', 'focus'],
       outline:['hover','active'],
+      display: ['hover', 'focus','group-focus'],
     },
   },
   plugins: [
