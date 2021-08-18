@@ -14,6 +14,7 @@ const CardList = ({condition}) =>{
     const $topElement = useRef();
     const [topMargin, setTopMargin] = useState(0);
     const [bottomMargin, setBottomMargin] = useState(0);
+    let maxEnd = useRef(0);
 
     useEffect(() =>{
         // console.log("useEffect called by condition")
@@ -31,8 +32,9 @@ const CardList = ({condition}) =>{
             setArticleList(array);
             setRange({
                 start: 0,
-                end: array.length - 1
+                end: array.length
             });
+            maxEnd.current = array.length-1;
             return array;
         })
     },[condition])
@@ -40,7 +42,7 @@ const CardList = ({condition}) =>{
         // console.log("useEffect called by start and end")
         // console.log(renderRange);
         if(renderRange.end >= articleList.length - 1){
-            getArticles(condition.categoryId, condition.sortBy, articleList.length, MaxLength).then((value) =>{
+            getArticles(condition.categoryId, condition.sortBy, articleList.length, MaxLength*2).then((value) =>{
                 let array = articleList;
                 let arr = value.data.articles;
                 let indexSet = articleIdSet;
@@ -68,32 +70,32 @@ const CardList = ({condition}) =>{
                 const {start, end} = renderRange;
                 entries.forEach((entry, index) => {
                 const listLength = articleList.length;
-                // console.log("listLength",listLength)
                 // Scroll Down
                 if (entry.isIntersecting && entry.target.id === "bottom") {
                     const maxStartIndex = listLength - 1 - MaxLength;     // Maximum index value `start` can take
                     const maxEndIndex = listLength - 1;                   // Maximum index value `end` can take
                     const newEnd = (end + 4) <= maxEndIndex ? end + 4 : maxEndIndex;
                     const newStart = (end - 5) <= maxStartIndex ? end - 5 : maxStartIndex;
+                    if(newEnd > maxEnd.current) maxEnd.current = newEnd;
+                    setTopMargin($topElement.current.clientHeight * (newStart));
+                    setBottomMargin($bottomElement.current.clientHeight * (maxEnd.current - newEnd));
                     setRange({
                         start: newStart,
                         end: newEnd
                     });
-                    console.log($topElement.current , $bottomElement.current)
-                    setTopMargin($topElement.current.clientHeight * (newStart));
-                    setBottomMargin($bottomElement.current.clientHeight * (listLength - 1 - newEnd));
+                    console.log(renderRange.end - renderRange.start)
                 }
                 // Scroll up
                 if (entry.isIntersecting && entry.target.id === "top") {
                     const newEnd = start + 5 >= (MaxLength - 1) ? start + 5 : (MaxLength - 1) ;
                     const newStart = start - 4 >= 0 ? start - 4 : 0;
-                    // $topElement.current.style.margin = `0`;
+                    setTopMargin($topElement.current.clientHeight * (newStart));
+                    setBottomMargin($bottomElement.current.clientHeight * (maxEnd.current - newEnd));
                     setRange({
                         start: newStart,
                         end: newEnd
                     });
-                    setTopMargin($topElement.current.clientHeight * (newStart));
-                    setBottomMargin($bottomElement.current.clientHeight * (listLength - 1 - newEnd));
+                    console.log(renderRange.end - renderRange.start)
                 }
             });
         }, options)
@@ -111,14 +113,6 @@ const CardList = ({condition}) =>{
     }
     useEffect(() => {
         initObserver();
-        if(renderRange.start !== renderRange.end) {
-            // console.log("height:",$topElement.current.clientHeight)
-            // $topElement.current.style.margin = `${topPadding}px 0 0 0`;
-            // console.log("ininti:",$topElement.current, $bottomElement.current)
-            // return ()=>{
-            //     resetObserver();
-            // }
-        }
         return ()=>{
             resetObserver();
         }

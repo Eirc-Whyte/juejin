@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import CardList from './CardList';
+import ContentList from './ContentList';
 const Sidebar = ()=>{
     return(
         <aside className="mobile:hidden flex flex-col mx-4">
@@ -32,7 +33,7 @@ const Content = ({condition})=>{
     return (
         <main className="mt-20 flex justify-center w-screen" ref={ref}>
             {/* <SecondNav/> */}
-            <CardList condition={condition}/>
+            <ContentList condition={condition}/>
             <Sidebar/>
         </main>
     )
