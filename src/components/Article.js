@@ -2,6 +2,8 @@ import Comment from './Comment'
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getArticleById } from '../api';
+import CommentList from './CommentList';
+import CommentL from './CommentBk';
 const Article = () =>{
     let {id} = useParams();
     const [article, setArticle] = useState({});
@@ -48,11 +50,11 @@ const Article = () =>{
                 <div><span className="inline-block mx-7 mt-4 mb-7 text-lg">文章标签</span><span className="bg-gray-100 rounded-full px-4 py-1">{article.category_info.second_category_name}</span></div>
             </div>
             <div className="divider w-screen bg-white max-w-screen-tablet"><div className="m-auto border-t border-gray-200 w-3/4 h-0"></div></div>
-            <Comment></Comment>
+            <CommentList></CommentList>
         </div>):(
             <div className="flex flex-col justify-center items-center">
                 <div className="mt-10 mx-4 article px-7 bg-white pt-4 mb-4 max-w-screen-tablet">
-                    <Comment></Comment>
+                    <CommentList></CommentList>
                 </div>
             </div>
         )

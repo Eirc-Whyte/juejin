@@ -59,3 +59,5 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 - 目前采用后者，优点是url清爽，缺点是各组件状态重复
 - 问题：切换tab后无限加载失效
 - 计划：抽象无限加载组件只接受一个update函数和一个列表，也方便以后评论使用
+- 问题：在自定义组件useHitBottom中调用update函数失效
+- 解决：因为使用了useCallBack，导致update被冻结，将update作为useCallback的参数后，会引发无限render；需要将update也放入useCallBack

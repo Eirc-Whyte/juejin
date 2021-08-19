@@ -12,21 +12,20 @@ const useHitBottom = (expand) => {
         threshold: [0.5]
     };
     const handleRefChange = useCallback((node)=>{
-        console.log(node)
         const newObserver = new IntersectionObserver((entries, observer)=>{
             entries.forEach((entry) => {
                 // Scroll Down
                 if (entry.isIntersecting) {
                     expand();
-                    node.style.background = "red"
-                    // if(observer) observer.disconnect();
-                    console.log("scroll down",observer)
+                    // node.style.background = "red"
+                    if(observer) observer.disconnect();
+                    // console.log("scroll down",observer)
                 }
             });
         }, options)
         if(node) newObserver.observe(node);
         setObserver(newObserver)
-    },[])
+    },[expand])
     return handleRefChange
 }
 export default useHitBottom;

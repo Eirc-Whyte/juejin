@@ -3,7 +3,7 @@ import favourite from './asset/like.png';
 import comment from './asset/comment.png';
 import { Link } from "react-router-dom";
 import React from 'react'
-const Card = ({article},ref)=>{
+const Card = ({article})=>{
     let {article_id, article_info, author_user_info} = article;
     return (
         <Link to={`/article/${article_id}`}>
@@ -59,4 +59,4 @@ const Card = ({article},ref)=>{
         </Link>
     )
 }
-export default React.forwardRef(Card);
+export default Card;
