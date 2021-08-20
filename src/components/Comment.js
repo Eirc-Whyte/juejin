@@ -44,9 +44,9 @@ const Comment = ({comment})=>{
                                     src={reply.user_info.avatar_large}></img>
                                 <div className="pl-4 flex flex-col justify-center flex-1">
                                     <div className="flex justify-start mb-2">
-                                        <div className="mr-2 text-black font-bold">{reply.user_info.user_name}</div>
+                                        <div className="mr-2 text-black font-bold line-clamp-1">{reply.user_info.user_name}</div>
                                         {reply.user_info.level === 0 ? "": <img className="mx-1 bg-cover " alt="user_level" src={lvIcons[reply.user_info.level]}/>}
-                                        <div className="mx-1 text-gray-400">{reply.user_info.job_title}</div> 
+                                        <div className="mx-1 text-gray-400 line-clamp-1">{reply.user_info.job_title}</div> 
                                     </div>
                                     <div className="mb-2">{reply.reply_info.reply_content}</div>
                                 </div>

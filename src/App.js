@@ -2,13 +2,16 @@ import Header from './components/Header';
 import Container from './components/Container';
 import Footer from './components/Footer';
 import Article from './components/Article';
+import { AppProvider } from "./components/state"
+import ScrollToTop from './components/ScrollToTop';
+
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const HomePage = () => {
   window.addEventListener('scroll', (e)=>{
@@ -40,36 +43,6 @@ const HomePage = () => {
       footer.classList.remove('translate-y-24');
     }
   });
-  // let start = {x:0, y:0};
-  // let end = {x:0, y:0};
-  // window.addEventListener('touchstart', (e)=>{
-  //   let touch = e.targetTouches[0];
-  //   start = {x: touch.pageX, y: touch.pageY};
-  // });
-  // window.addEventListener('touchmove', (e)=>{
-  //   let touch = e.targetTouches[0];
-  //   end = {x: touch.pageX, y: touch.pageY};
-  // });
-  // window.addEventListener('touchend', (e)=>{
-  //   var clientHeight = document.documentElement.clientHeight;
-  //   let header = document.getElementsByTagName('header')[0];//定义一个dom节点为'header'的header变量
-  //   let nav = document.getElementsByTagName('nav')[0];
-  //   if(start.y !== Math.abs(end.y)){
-  //       if(Math.abs(end.y - start.y) > clientHeight*0.1){
-  //         if(end.y < start.y){  //if语句判断window页面Y方向的位移是否大于或者等于导航栏的height像素值
-  //           header.classList.add('mobile:-translate-y-8');  //当Y方向位移大于80px时，定义的变量增加一个新的样式'header_bg'
-  //           header.classList.add('-translate-y-20');
-  //           nav.classList.add('mobile:-translate-y-8');
-  //           nav.classList.add('-translate-y-20');
-  //         } else {
-  //           header.classList.remove('mobile:-translate-y-8');
-  //           header.classList.remove('-translate-y-20');
-  //           nav.classList.remove('mobile:-translate-y-8');
-  //           nav.classList.remove('-translate-y-20');
-  //         }
-  //       }
-  //   }
-  // });
   const [articleFilterCondition, setFilterCondition] = useState({
     categoryId: 0,
     sortBy:'hot',
@@ -78,21 +51,40 @@ const HomePage = () => {
   const handleConditionChange = (newCondition) => {
     setFilterCondition(newCondition);
   }
+  const initState = {
+    history:[]
+  }
+  const reducer = (state, action) => {
+    console.log(state)
+    if (action.type === "ADD_HIS") {
+      return { history : [...new Set([...state.history, action.data])] };
+    } 
+    if(action.type === "CLEAR_HIS") {
+      return { history : []}
+    }
+    else {
+      throw new Error();
+    }
+  }
     return (
       <Router>
-        <div className="w-screen">
+        <AppProvider initValue={initState} reducer={reducer}>
+          <div className="w-screen">
+          <ScrollToTop>
             <Header condition={articleFilterCondition} onConditionChange={handleConditionChange}/>
-            <Switch>
-              <Route path="/article/:id">
-                <Article />
-              </Route>
-              <Route path="/">
-                <Container condition={articleFilterCondition} onConditionChange={handleConditionChange}/>
-              </Route>
-              <Redirect to="/"></Redirect>
-            </Switch>
-            <Footer condition={articleFilterCondition} onConditionChange={handleConditionChange}/>
-        </div>
+              <Switch>
+                <Route path="/article/:id">
+                  <Article />
+                </Route>
+                <Route path="/category/:cate">
+                  <Container condition={articleFilterCondition} onConditionChange={handleConditionChange}/>
+                </Route>
+                <Redirect to="/category/hot"></Redirect>
+              </Switch>
+              <Footer condition={articleFilterCondition} onConditionChange={handleConditionChange}/>
+          </ScrollToTop>
+          </div>
+        </AppProvider>
       </Router>
     )
 }

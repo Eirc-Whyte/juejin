@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
+import {Link} from 'react-router-dom'
 
 const Footer = ({condition, onConditionChange}) =>{
     function navItem(link, name, active){
-        this.name = name;
         this.link = link;
+        this.name = name;
         this.active = active;
     }
     const [onselection, setOnSelection] = useState([
@@ -22,23 +23,17 @@ const Footer = ({condition, onConditionChange}) =>{
             });
         }
     }
-    // useEffect(() => {
-    //     listContent.forEach((item,index) =>{
-    //         if(index === onselection) item.active = "text-blue"
-    //         else item.active = "text-grey"
-    //     })
-    //     console.log(listContent)
-    // },[onselection,listContent])
     return (
     <nav className="bg-white fixed w-screen bottom-0 transition-all transform text-center">
         <ul className="mx-auto h-14 inline-flex text-left items-center shadow-sm divide-x">{
             onselection.map((item,index) => 
-            <li 
-                key = {item.link}
-                onClick={()=> onSelectionChange(index)} 
-                className={`text-lg hover:text-blue cursor-pointer px-8 ${item.active}`}>
-                {item.name}
-            </li>
+            <Link to={'/category/'+item.link} key = {item.link}>
+                <li 
+                    onClick={()=> onSelectionChange(index)} 
+                    className={`text-lg hover:text-blue cursor-pointer px-8 ${item.active}`}>
+                    {item.name}
+                </li>
+            </Link>
             )}
         </ul>
     </nav>

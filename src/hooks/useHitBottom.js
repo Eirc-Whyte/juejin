@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback } from "react";
 /* @const status
  * @param status = 0 : not hit bottom
  * @param status = 1 : hit bottom
 */
 
 const useHitBottom = (expand) => {
-    const [observer, setObserver] = useState(null);
+    // const [observer, setObserver] = useState(null);
     const options = {
         root: null,
         rootMargin: '0px',
@@ -24,7 +24,7 @@ const useHitBottom = (expand) => {
             });
         }, options)
         if(node) newObserver.observe(node);
-        setObserver(newObserver)
+        // setObserver(newObserver)
     },[expand])
     return handleRefChange
 }

@@ -10,7 +10,7 @@ const Article = () =>{
     useEffect(() =>{
         getArticleById(id).then((res) =>{
             setArticle(res.data.article);
-            console.log("article:",article)
+            // console.log("article:",article)
         })
     },[id,article])
     return (
