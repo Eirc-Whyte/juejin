@@ -3,6 +3,10 @@ import favourite from './asset/like.png';
 import comment from './asset/comment.png';
 import { Link } from "react-router-dom";
 import { useAppState } from './state';
+import LazyImage from './LazyImage'
+import { useRef,useEffect } from 'react';
+import LoadingAnimation from './LoadingAnimation'
+import { findDOMNode } from 'react-dom';
 const Card = ({article})=>{
     const [_ , dispatch] = useAppState()
     const {article_id, article_info, author_user_info} = article;
@@ -29,15 +33,10 @@ const Card = ({article})=>{
                         {article_info.title}
                     </div>
                     <div className="content-main flex flex-auto justify-between pb-4">
-                        <div className="text-base text-grey mb-2">
+                        <div className="text-base text-grey mb-2 flex-3">
                             <p className="brief">{article_info.brief_content}</p>
                         </div>
-                        <img 
-                        // height={40}
-                        width={120}
-                        className="ml-8"
-                        alt={article_info.cover_image}
-                        src={article_info.cover_image}/>
+                        <LazyImage src={article_info.cover_image}/>
                     </div>
                     <div className="action-list inline-flex ">
                         <div className=" mr-5 text-center align-middle">

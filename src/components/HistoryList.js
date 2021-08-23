@@ -24,6 +24,7 @@ const HistoryList = ({})=>{
                 ) : articleList.map((article,index) => {
                         return (
                             <Card
+                                key = {article.article_id}
                                 article={article}>
                             </Card>
                         )

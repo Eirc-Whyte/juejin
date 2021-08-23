@@ -14,13 +14,6 @@ module.exports = {
       'desktop': '1280px',
       // => @media (min-width: 1280px) { ... }
     },
-    // screens: {
-    //   'sm': {'min': '640px', 'max': '767px'},
-    //   'md': {'min': '768px', 'max': '1023px'},
-    //   'lg': {'min': '1024px', 'max': '1279px'},
-    //   'xl': {'min': '1280px', 'max': '1535px'},
-    //   '2xl': {'min': '1536px'},
-    // },
     minWidth: {
       '0': '0',
       '1/4': '25%',
@@ -45,6 +38,9 @@ module.exports = {
       },
       outline: {
         blue: '1px solid #1e80ff',
+      },
+      flex: {
+      '3':'3 3 0%'
       }
     },
   },

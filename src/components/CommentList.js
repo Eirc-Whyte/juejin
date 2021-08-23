@@ -29,7 +29,7 @@ const CommentList = ({articleId})=>{
             <div 
                 id={index === comments.length-1 ? "bottom" : "" } 
                 ref={index === comments.length-1 ? infiniter : null}
-                key={index}>
+                key={comment.comment_id}>
             <Comment comment={comment}></Comment>
             </div>
             )}

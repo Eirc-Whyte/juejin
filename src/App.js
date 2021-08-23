@@ -11,7 +11,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const HomePage = () => {
   window.addEventListener('scroll', (e)=>{
@@ -51,13 +51,15 @@ const HomePage = () => {
   const handleConditionChange = (newCondition) => {
     setFilterCondition(newCondition);
   }
-  const initState = {
-    history:[]
-  }
+  const [initState,setInitialState] = useState({
+    history: JSON.parse(window.localStorage.getItem('history'))
+  })
   const reducer = (state, action) => {
     console.log(state)
     if (action.type === "ADD_HIS") {
-      return { history : [...new Set([...state.history, action.data])] };
+      const newState = { history : [...new Set([...state.history, action.data])] };
+      window.localStorage.setItem('history',JSON.stringify(newState.history))
+      return newState;
     } 
     if(action.type === "CLEAR_HIS") {
       return { history : []}

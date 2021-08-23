@@ -7,13 +7,30 @@ const ContentList = ({condition})=>{
     const [articleList, setArticleList] = useState([]);
     useEffect(()=>{
         getArticles(condition.tag === "all" ? condition.categoryId : condition.tag, condition.sortBy, 0, 10).then((value) =>{
-            setArticleList([...value.data.articles]);
+            let dedup = {};
+            const deduplicate = value.data.articles.reduce((cur,next)=>{
+                if(dedup[next.article_id]=== undefined) {
+                    dedup[next.article_id] = true; 
+                    cur.push(next);
+                }
+                return cur;
+            },[])
+            setArticleList([...deduplicate]);
         })
     },[condition])
     // expand must!! useCallback
     const expand = useCallback(()=>{
         getArticles(condition.tag === "all" ? condition.categoryId : condition.tag, condition.sortBy, articleList.length, 10).then((value) =>{
-            setArticleList([...articleList,...value.data.articles]);
+            let dedup = {};
+            articleList.forEach(item=> dedup[item.article_id] = true)
+            const deduplicate = value.data.articles.reduce((cur,next)=>{
+                if(dedup[next.article_id]=== undefined) {
+                    dedup[next.article_id] = true; 
+                    cur.push(next);
+                }
+                return cur;
+            },[])
+            setArticleList([...articleList,...deduplicate]);
         })
     },[articleList])
     const infiniter = useHitBottom(expand);
@@ -28,7 +45,7 @@ const ContentList = ({condition})=>{
                             <div 
                                 id={index === articleList.length-1 ? "bottom" : "" } 
                                 ref={index === articleList.length-1 ? infiniter : null}
-                                key={index}>
+                                key={article.article_id}>
                                 <Card
                                     article={article}>
                                 </Card>
