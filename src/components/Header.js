@@ -1,22 +1,74 @@
 import { getCategories } from '../api';
-import React, { useState,useEffect } from 'react';
-import { parse } from 'postcss';
+import { useState,useEffect,useRef,useCallback } from 'react';
 
-const Searchbar = () =>{
+const Searchbar = ({condition, onConditionChange}) =>{
+    const [input, setInput] = useState(null);
+    const [searchHisList, setSearchList] = useState([]);
+    const searchHistory = useRef(null);
+    // const onSearch = useCallback((e) =>{
+    //     console.log(e.key)
+        
+    // },[searchHisList, input])
+    // useEffect(() =>{
+    //     document.addEventListener('keydown',onSearch);
+    //     return document.removeEventListener('keydown',onSearch);
+    // })
+    const showHisList = (e)=>{
+        let className = [];
+        searchHistory && (className = searchHistory.current.className.split(' '))
+        className.shift()
+        searchHistory && (searchHistory.current.className = className.join(''))
+    }
+    const hiddenHisList = (e)=>{
+        searchHistory && (searchHistory.current.className = ['hidden', ...searchHistory.current.className.split(' ')].join(''))
+    }
     return (
         <ul className="mobile:hidden flex flex-auto mx-8 overflow-hidden items-start">
             <li className="rounded flex flex-col relative mt-4">
                 <div className="rounded flex m-px bg-gray-100 focus-within:outline-blue">
-                    <input className="search-input bg-transparent w-48 py-3 pl-4 transition-all focus:outline-none" type="search" placeholder="探索掘金"></input>
-                    <img className="px-2 cursor-pointer" src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/8f68a2223e9650f14d6e6781cdcd717a.svg" alt="search"></img>
+                    <input 
+                        className="search-input bg-transparent w-48 py-3 pl-4 transition-all focus:outline-none" 
+                        type="search" 
+                        onChange={(e)=>{
+                            setInput(e.target.value);
+                        }}
+                        value={input}
+                        onFocus={showHisList}
+                        onBlur={hiddenHisList}
+                        onKeyDown={(e)=>{
+                            if(e.key === "Enter"){
+                                onConditionChange({...condition, filter:input})
+                                setSearchList([...new Set([...searchHisList, input])])
+                                console.log(input)
+                            }
+                        }}
+                        placeholder="探索掘金"></input>
+                    <img 
+                        className="px-2 cursor-pointer" 
+                        src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/8f68a2223e9650f14d6e6781cdcd717a.svg" 
+                        alt="search"
+                        onClick={(e)=>{
+                            onConditionChange({...condition, filter:input});
+                            console.log(input)
+                            setSearchList([...new Set([...searchHisList, input])])
+                        }}/>
                 </div>
-                <div className="search-history hidden flex-col z-20 w-full bg-white divide-y border border-gray-100">
-                    <div className="flex justify-between px-4 py-2">
-                        <span className="cursor-pointer hover:text-blue">搜索历史</span>
-                        <span className="cursor-pointer hover:text-blue">清空</span>
+                <div className="hidden search-history flex-col z-20 w-full bg-white divide-y border border-gray-100" ref={searchHistory}>
+                    <div className="flex justify-between px-4 py-2 bg-white">
+                        <span className="text-grey">搜索历史</span>
+                        <span className="cursor-pointer hover:text-blue" onClick={(e)=>{setSearchList([])}}>清空</span>
                     </div>
-                    <ul className="flex flex-col hover:bg-gray-100 cursor-pointer">
-                        <li className="px-4 py-2 ">history</li>
+                    <div className="divider bg-white w-full"><div className="m-auto border-t border-gray-100 w-5/6 h-0"></div></div>
+                    <ul className="flex flex-col bg-white cursor-pointer">{
+                        searchHisList.map(item => {
+                            return <li 
+                                    className="px-4 py-2 hover:bg-gray-200 " 
+                                    key={item}
+                                    onClick={(e)=>{
+                                        setInput(item)
+                                        hiddenHisList(e)
+                                    }}>{item}</li>
+                    })}
                     </ul>
                 </div>
             </li>
@@ -130,7 +182,7 @@ const Header = ({condition, onConditionChange}) => {
                         </li>
                     )}
                 </ul>
-                <Searchbar></Searchbar>
+                <Searchbar condition={condition} onConditionChange={onConditionChange}></Searchbar>
                 <UserInfo></UserInfo>
                 {/* </div> */}
             </header>

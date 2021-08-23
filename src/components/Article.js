@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getArticleById } from '../api';
 import CommentList from './CommentList';
-import CommentL from './CommentBk';
+// import CommentL from './CommentBk';
 const Article = () =>{
     let {id} = useParams();
     const [article, setArticle] = useState({});

@@ -46,13 +46,14 @@ const HomePage = () => {
   const [articleFilterCondition, setFilterCondition] = useState({
     categoryId: 0,
     sortBy:'hot',
-    tag:'all'
+    tag:'all',
+    filter: '',
   });
   const handleConditionChange = (newCondition) => {
     setFilterCondition(newCondition);
   }
   const [initState,setInitialState] = useState({
-    history: JSON.parse(window.localStorage.getItem('history'))
+    history: JSON.parse(window.localStorage.getItem('history') ? window.localStorage.getItem('history') : "[]")
   })
   const reducer = (state, action) => {
     console.log(state)

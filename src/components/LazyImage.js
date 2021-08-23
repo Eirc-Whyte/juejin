@@ -16,16 +16,15 @@ const LazyImage = forwardRef((props, ref)=>{
                             container.current && (container.current.className = 'relative')
                             animation.current && (animation.current.className = "ml-4 invisible")
                         },3000)
-                        img.current.onError = ()=>{
+                        img.current && (img.current.onError = ()=>{
                             container.current && (container.current.className = 'relative')
                             animation.current && (animation.current.className = "ml-4 invisible")
-                        }
-                        img.current.onload = ()=>{
-                            observer.unobserve(img.current)
+                        })
+                        img.current && (img.current.onload = ()=>{
                             clearTimeout(timer);
                             animation.current && (animation.current.className = "ml-4 invisible")
                             img.current && (img.current.className = "ml-4")
-                        }
+                        })
                     }
                 })
             }).observe(img.current)
