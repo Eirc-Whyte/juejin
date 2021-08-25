@@ -38,7 +38,7 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 - [x] 实现滑到文章列表底部自动加载功能（列表页与文章页面）。
 - [x] 实现浏览历史 / 稍后再看功能。
 - [ ] 图片点击放大
-- [ ] 文章搜索
+- [x] 文章搜索
 
 目前遇到的问题及解决方法:
 
@@ -64,3 +64,4 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 - 问题：在自定义组件useHitBottom中调用update函数失效
 - 解决：因为使用了useCallBack，导致update被冻结，将update作为useCallback的参数后，会引发无限render；需要将update也放入useCallBack
 - 问题：onblur和onclick冲突，onblur优先级更高
+- 解决：优先级onMouseDown > onBlur > onClick所以使用onMouseDown代替onClick
