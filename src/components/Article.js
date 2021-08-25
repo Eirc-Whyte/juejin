@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getArticleById } from '../api';
 import CommentList from './CommentList';
+import moment from 'moment';
 // import CommentL from './CommentBk';
 const Article = () =>{
     let {id} = useParams();
@@ -25,7 +26,7 @@ const Article = () =>{
                         src={article.author_user_info.avatar_large}></img>
                     <div className="pl-4 flex flex-col justify-center">
                         <div className="text-black font-bold">{article.author_user_info.user_name}</div>
-                        <div className="text-gray-300">2019年09月18日</div>
+                        <div className="text-gray-300">{moment.unix(article.article_info.ctime).format("YYYY-MM-DD")}</div>
                     </div>
                     </div>
                     <div>

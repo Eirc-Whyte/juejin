@@ -7,6 +7,7 @@ import lv4 from './asset/lv4.svg';
 import lv5 from './asset/lv5.svg';
 import lv6 from './asset/lv6.svg';
 import lv7 from './asset/lv7.svg';
+import moment from 'moment';
 const Comment = ({comment})=>{
     const lvIcons = ["",lv1,lv2,lv3,lv4,lv5,lv6,lv7];
     return (
@@ -24,7 +25,7 @@ const Comment = ({comment})=>{
             </div>
             <div className="mb-2">{comment.comment_info.comment_content}</div>
             <div className="flex justify-between items-center mb-2">
-                <div className="text-gray-300">2019年09月18日</div>
+                <div className="text-gray-300">{moment.unix(comment.comment_info.ctime).format('YYYY-MM-DD')}</div>
                 <div className="flex items-center">
                     <div></div>
                     <img className="bg-cover w-4 h-4 mx-1" alt="like" src={likeIcon}/>
