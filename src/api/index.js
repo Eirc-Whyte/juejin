@@ -21,7 +21,8 @@ export async function getCategories() {
  * @param {*} offset 分页参数参考 sql 的 offset 和 limit
  * @param {*} limit 同上
  */
-export async function getArticles(categoryId = 0, sortBy = 'hot', offset = 0, limit = 10) {
+export async function getArticles(categoryId = 0, sortBy = 'hot', offset = 0, limit = 10, filter = []) {
+  
   const sortFunc = {
     new: (a, b) => b.article_info.ctime - a.article_info.ctime,
     hot: (a, b) => b.article_info.digg_count - a.article_info.digg_count,
@@ -35,6 +36,16 @@ export async function getArticles(categoryId = 0, sortBy = 'hot', offset = 0, li
 
   if (sortFunc) {
     articlesWithCategory.sort(sortFunc);
+  }
+
+  if(filter.length > 0){
+    articlesWithCategory.forEach(article => {
+      article.matchScore = filter.reduce((acc, item)=>{
+          if(article.article_info.title.indexOf(item) !== -1) acc++;
+          return acc;
+      },0)
+    })
+    articlesWithCategory.sort((a,b)=> a.matchScore > b.matchScore ? -1 : (a.matchScore === b.matchScore ? sortFunc(a,b) : 1))
   }
 
   return {

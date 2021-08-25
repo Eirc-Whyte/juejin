@@ -63,3 +63,4 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 - 计划：抽象无限加载组件只接受一个update函数和一个列表，也方便以后评论使用
 - 问题：在自定义组件useHitBottom中调用update函数失效
 - 解决：因为使用了useCallBack，导致update被冻结，将update作为useCallback的参数后，会引发无限render；需要将update也放入useCallBack
+- 问题：onblur和onclick冲突，onblur优先级更高

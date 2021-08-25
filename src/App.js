@@ -47,7 +47,7 @@ const HomePage = () => {
     categoryId: 0,
     sortBy:'hot',
     tag:'all',
-    filter: '',
+    filter: [],
   });
   const handleConditionChange = (newCondition) => {
     setFilterCondition(newCondition);
