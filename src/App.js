@@ -1,9 +1,9 @@
 import Header from './components/Header';
-import Container from './components/Container';
+import Container from './components/Content';
 import Footer from './components/Footer';
 import Article from './components/Article';
-import { AppProvider } from "./components/state"
-import ScrollToTop from './components/ScrollToTop';
+import { AppProvider } from "./utils/state"
+import ScrollToTop from './utils/ScrollToTop';
 
 import {
   BrowserRouter as Router,
@@ -14,8 +14,9 @@ import {
 import { useEffect, useRef, useState } from 'react';
 
 const HomePage = () => {
-  window.addEventListener('scroll', (e)=>{
-    let header = document.getElementsByTagName('header')[0];//定义一个dom节点为'header'的header变量
+  const pre = useRef(0);
+  const barController =  (e)=>{
+    let header = document.getElementsByTagName('header')[0];
     let navs = document.getElementsByTagName('nav');
     let nav = null;
     let footer = null;
@@ -25,24 +26,26 @@ const HomePage = () => {
     }else{
       footer = navs[0];
     }
-    if(window.pageYOffset >= 100){  //if语句判断window页面Y方向的位移是否大于或者等于导航栏的height像素值
-      header.classList.add('mobile:-translate-y-20');  //当Y方向位移大于80px时，定义的变量增加一个新的样式'header_bg'
+    if(window.pageYOffset > 0 && window.pageYOffset > pre.current){
+      // 下滑隐藏
       header.classList.add('-translate-y-20');
-      if(nav !== null) {
-        nav.classList.add('mobile:-translate-y-20');
-        nav.classList.add('-translate-y-20');
-      }
+      nav && nav.classList.add('-translate-y-20');
       footer.classList.add('translate-y-24');
     } else {
-      header.classList.remove('mobile:-translate-y-20');
+      // 上滑显示
       header.classList.remove('-translate-y-20');
-      if(nav !== null) {
-        nav.classList.remove('mobile:-translate-y-20');
-        nav.classList.remove('-translate-y-20');
-      }
+      nav && nav.classList.remove('-translate-y-20');
       footer.classList.remove('translate-y-24');
     }
-  });
+    pre.current = window.pageYOffset;
+  }
+  useEffect(()=>{
+    window.addEventListener('scroll',barController);
+    return ()=>{ window.removeEventListener('scroll',barController) }
+  },[])
+  /*
+    在顶层组件存储当前文章列表的筛选条件
+  */
   const [articleFilterCondition, setFilterCondition] = useState({
     categoryId: 0,
     sortBy:'hot',
@@ -52,17 +55,25 @@ const HomePage = () => {
   const handleConditionChange = (newCondition) => {
     setFilterCondition(newCondition);
   }
+  /*
+    将localstorage中存储的历史记录提取出来，作为状态管理组件的初始值
+  */
   const [initState,setInitialState] = useState({
     history: JSON.parse(window.localStorage.getItem('history') ? window.localStorage.getItem('history') : "[]")
   })
+  /*
+    定义dispatch函数
+  */
   const reducer = (state, action) => {
-    console.log(state)
     if (action.type === "ADD_HIS") {
+      // 存储当前历史记录到localstorage
       const newState = { history : [...new Set([...state.history, action.data])] };
       window.localStorage.setItem('history',JSON.stringify(newState.history))
       return newState;
     } 
     if(action.type === "CLEAR_HIS") {
+      // 清空历史记录
+      window.localStorage.removeItem('history')
       return { history : []}
     }
     else {

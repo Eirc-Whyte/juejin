@@ -8,6 +8,11 @@ import lv5 from './asset/lv5.svg';
 import lv6 from './asset/lv6.svg';
 import lv7 from './asset/lv7.svg';
 import moment from 'moment';
+
+/*----------------------------------------------------------------
+    无状态评论组件
+*/
+
 const Comment = ({comment})=>{
     const lvIcons = ["",lv1,lv2,lv3,lv4,lv5,lv6,lv7];
     return (

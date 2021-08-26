@@ -1,4 +1,7 @@
 import { forwardRef } from "react";
+/*
+    加载动画组件，用于控制图片加载时的动画
+*/
 const LoadingAnimation = forwardRef((props, ref)=>{
     return (
         <div ref={ref}

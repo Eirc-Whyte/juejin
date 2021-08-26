@@ -17,14 +17,11 @@ const useHitBottom = (expand) => {
                 // Scroll Down
                 if (entry.isIntersecting) {
                     expand();
-                    // node.style.background = "red"
                     if(observer) observer.disconnect();
-                    // console.log("scroll down",observer)
                 }
             });
         }, options)
         if(node) newObserver.observe(node);
-        // setObserver(newObserver)
     },[expand])
     return handleRefChange
 }

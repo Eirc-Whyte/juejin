@@ -6,7 +6,7 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
-      'mobile': {'max': '450px'},
+      'mobile': {'max': '830px'},
       'tablet': '640px',
       // => @media (min-width: 640px) { ... }
       'laptop': '1024px',
@@ -41,7 +41,11 @@ module.exports = {
       },
       flex: {
       '3':'3 3 0%'
-      }
+      },
+      transitionProperty: {
+        'height': 'height',
+        'width' : 'width',
+       }
     },
   },
   variants: {
@@ -53,6 +57,9 @@ module.exports = {
       visibility: ['hover', 'focus'],
       outline:['hover','active'],
       display: ['hover', 'focus','group-focus'],
+      flexGrow: ['hover', 'focus','focus-within'],
+      width: ['hover', 'focus','focus-within'],
+      maxWidth: ['hover', 'focus','focus-within'],
     },
   },
   plugins: [

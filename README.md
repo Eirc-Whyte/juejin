@@ -65,3 +65,5 @@ https://bytedance.feishu.cn/docs/doccnWJZyfzHGMyt0fyy3E99LIh#21zEmd
 - 解决：因为使用了useCallBack，导致update被冻结，将update作为useCallback的参数后，会引发无限render；需要将update也放入useCallBack
 - 问题：onblur和onclick冲突，onblur优先级更高
 - 解决：优先级onMouseDown > onBlur > onClick所以使用onMouseDown代替onClick
+- 问题：搜索栏伸缩问题，focus-within仅作用于直接子元素
+- 解决：用js吧

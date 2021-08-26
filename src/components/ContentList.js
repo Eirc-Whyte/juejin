@@ -1,14 +1,19 @@
 import { useCallback, useEffect, useRef, useState,useMemo } from "react";
-import useHitBottom from "../hooks/useHitBottom";
+import useHitBottom from "../utils/useHitBottom";
 import { getArticles } from "../api";
 import Card from "./Card";
 
+/*
+    显示文章列表，使用useHitBottom监听是否触底
+*/
 const ContentList = ({condition})=>{
     const [articleList, setArticleList] = useState([]);
     useEffect(()=>{
+        // 每当condition变动时初始化加载
         getArticles(condition.tag === "all" ? condition.categoryId : condition.tag, condition.sortBy, 0, 10, condition.filter)
             .then((value) =>{
                 let dedup = {};
+                // 去重
                 const deduplicate = value.data.articles.reduce((cur,next)=>{
                     if(dedup[next.article_id]=== undefined) {
                         dedup[next.article_id] = true;
@@ -19,11 +24,13 @@ const ContentList = ({condition})=>{
                 setArticleList([...deduplicate]);
             })
     },[condition])
-    // expand must!! useCallback
-    const expand = useCallback(()=>{
+    // onHandleHitBottom must!! useCallback
+    const onHandleHitBottom = useCallback(()=>{
+        // 新加载内容到内容列表中，注意使用useCallback
         getArticles(condition.tag === "all" ? condition.categoryId : condition.tag, condition.sortBy, articleList.length, 10, condition.filter).then((value) =>{
             let dedup = {};
             articleList.forEach(item=> dedup[item.article_id] = true)
+            // 去重
             const deduplicate = value.data.articles.reduce((cur,next)=>{
                 if(dedup[next.article_id]=== undefined) {
                     dedup[next.article_id] = true; 
@@ -34,14 +41,12 @@ const ContentList = ({condition})=>{
             setArticleList([...articleList,...deduplicate]);
         })
     },[articleList])
-    const infiniter = useHitBottom(expand);
+    // 自定义的useHitBottom hooks用于检测触底
+    const infiniter = useHitBottom(onHandleHitBottom);
     return (
         <div className="flex flex-col bg-white overflow-hidden">
-            {/* <div id="top-margin" style={{margin:`${topMargin}px 0 0 0`}}></div> */}
             {
-            // useMemo(()=>{
                 articleList.map((article,index) => {
-                        // if(index === 0) console.log(articleList);
                         return (
                             <div 
                                 id={index === articleList.length-1 ? "bottom" : "" } 
@@ -55,9 +60,7 @@ const ContentList = ({condition})=>{
                         )
                     }
                 )
-            // },[articleList, infiniter])
             }
-        {/* <div id="bottom-margin" style={{margin:`0 0 ${bottomMargin}px 0`}}></div> */}
         </div>
     )
 }

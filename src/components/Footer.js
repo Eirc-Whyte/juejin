@@ -1,17 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
 import {Link} from 'react-router-dom'
-
+/*
+    底部tab栏
+*/
 const Footer = ({condition, onConditionChange}) =>{
     function navItem(link, name, active){
         this.link = link;
         this.name = name;
         this.active = active;
     }
+    // 三个tab
     const [onselection, setOnSelection] = useState([
         new navItem('hot','热门', "text-blue"),
         new navItem('new','最新', "text-grey"),
         new navItem('his','历史', "text-grey"),
     ]);
+    // 选中更新状态
     const onSelectionChange = (changeTo) => {
         if(condition.sortBy !== onselection[changeTo].link){
             onConditionChange({...condition, sortBy: onselection[changeTo].link })

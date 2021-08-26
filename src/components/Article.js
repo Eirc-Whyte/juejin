@@ -4,14 +4,17 @@ import { useState, useEffect } from 'react';
 import { getArticleById } from '../api';
 import CommentList from './CommentList';
 import moment from 'moment';
-// import CommentL from './CommentBk';
+
+/*
+    文章组件
+*/
 const Article = () =>{
     let {id} = useParams();
     const [article, setArticle] = useState({});
     useEffect(() =>{
+        // 根据url中的id获取文章
         getArticleById(id).then((res) =>{
             setArticle(res.data.article);
-            // console.log("article:",article)
         })
     },[id,article])
     return (

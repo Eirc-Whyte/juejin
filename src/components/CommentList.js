@@ -1,15 +1,20 @@
-import useHitBottom from "../hooks/useHitBottom";
+import useHitBottom from "../utils/useHitBottom";
 import { useCallback, useEffect, useRef, useState,useMemo } from "react";
 import {getCommentsByArticleId} from '../api'
 import Comment from "./Comment";
+/*
+    评论列表组件，也使用了useHitBottom组件对触底进行监听
+*/
 const CommentList = ({articleId})=>{
     const [comments, setComments] = useState([]);
     const limit = 10;
+    // 获得评论列表
     useEffect(()=>{
         getCommentsByArticleId(articleId, comments.length, limit).then((val)=>{
             setComments(val.data.comments);
         })
     },[])
+    // 触底触发更新
     const onHandleHitBottom = useCallback(()=>{
         getCommentsByArticleId(articleId, comments.length, limit).then((val)=>{
             setComments([...comments, ...val.data.comments]);
